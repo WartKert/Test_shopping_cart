@@ -1,19 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Header } from "./components/header/header";
+import styles from "./index.module.css";
+import backgraundHeader from "./image/background_header.jpg";
+import { Provider } from "react-redux";
+import { store } from "./redux_state/state";
+import { useDispatch } from "react-redux";
+import { getListItems, ThunkType } from "./components/main/catalog/fetch";
+import { AnyAction } from "redux";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+function Index() {
+	return (
+		<div className={styles.body}>
+			<Provider store={store}>
+				<header className={styles.header} style={{ background: `url(${backgraundHeader})` }}>
+					<Header />
+				</header>
+				<aside className={styles.aside}></aside>
+				<main className={styles.main}></main>
+				<footer className={styles.footer}></footer>
+			</Provider>
+		</div>
+	);
+}
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+root.render(<Index />);

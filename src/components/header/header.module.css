@@ -1,0 +1,24 @@
+.imageBlock {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	height: 100%;
+}
+
+.image {
+	align-self: center;
+	padding: 3%;
+}
+
+.countItems {
+	position: absolute;
+	border: 1px dotted black;
+	height: 1.8rem;
+	width: 1.8rem;
+	border-radius: 50%;
+	font-size: 1.5rem;
+	right: 3%;
+	top: 0.8%;
+	text-align: center;
+	background-color: rgb(223, 230, 223);
+}
