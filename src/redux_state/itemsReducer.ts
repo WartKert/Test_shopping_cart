@@ -2,8 +2,11 @@ import { configureStore, createAction } from "@reduxjs/toolkit";
 import { combineReducers, legacy_createStore as createStore } from "redux";
 import { composeWithDevTools } from "@reduxjs/toolkit/dist/devtoolsExtension";
 import { devToolsEnhancerLogOnlyInProduction } from "@redux-devtools/extension";
+import { ThunkAction } from "redux-thunk";
+import { AppStateType } from "./state";
 
 const ADD_ITEM_TO_SHOP = "ADD_ITEM_TO_SHOP";
+const ADD_ALL_ITES_TO_SHOP = "ADD_ALL_ITES_TO_SHOP";
 
 interface actionType {
 	type: string;
@@ -12,18 +15,23 @@ interface actionType {
 
 const initState = {
 	cntItem: 5,
-	arrayOfItems: [{}],
+	arrayOfItems: null as Array<ListItemsFromServerType> | null,
 };
 
 type ItemsStateType = typeof initState;
 
 // Reducer
-function itemsReducer(state: ItemsStateType = initState, action: actionType): ItemsStateType {
+function itemsReducer(state: ItemsStateType = initState, action: ActionsTypes): ItemsStateType {
 	switch (action.type) {
 		case ADD_ITEM_TO_SHOP:
 			return {
 				...state,
 				cntItem: state.cntItem++,
+			};
+		case ADD_ALL_ITES_TO_SHOP:
+			return {
+				...state,
+				...action.payload,
 			};
 		default:
 	}
@@ -45,4 +53,41 @@ export const addItemToShopAction = (name: string, amount: number): AddItemToShop
 	payload: { name, amount },
 });
 
-export type ActionsTypes = AddItemToShopActionType;
+type ListItemsFromServerType = {
+	type: string;
+	id: number;
+	sku: string;
+	title: string;
+	regular_price: { currency: string; value: number };
+	image: string;
+	brand2: number;
+};
+
+type AddAllItemsToShopActionType = {
+	type: typeof ADD_ALL_ITES_TO_SHOP;
+	payload: {
+		arrayOfItems: Array<ListItemsFromServerType> | null;
+	};
+};
+
+export const addAllItemsToShopAction = (arrayOfItems: Array<ListItemsFromServerType> | null): AddAllItemsToShopActionType => ({
+	type: ADD_ALL_ITES_TO_SHOP,
+	payload: { arrayOfItems },
+});
+
+export const getListItems = (): ThunkType => {
+	return async (dispatch, getState) => {
+		const response = await fetch("https://raw.githubusercontent.com/AzureBin/react-test/master/assets/products.json");
+		let data: Array<ListItemsFromServerType> | null = null;
+		if (response.ok) {
+			data = (await response.json()) as ListItemsFromServerType[];
+		}
+
+		console.log(data);
+		dispatch(addAllItemsToShopAction(data));
+	};
+};
+
+export type ActionsTypes = AddItemToShopActionType | AddAllItemsToShopActionType;
+
+export type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>;

@@ -1,6 +1,6 @@
 import { ThunkAction } from "redux-thunk";
-import { AppStateType } from "../../../redux_state/state";
-import { ActionsTypes, addItemToShopAction } from "../../../redux_state/itemsReducer";
+import { AppStateType } from "./state";
+import { ActionsTypes, addItemToShopAction } from "./itemsReducer";
 
 export type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>;
 
@@ -21,13 +21,13 @@ async function http<T>(request: RequestInfo): Promise<T> {
 
 export const getListItems = (): ThunkType => {
 	return async (dispatch, getState) => {
-		const sdf = await http<ListItemsType[]>("https://jsonplaceholder.typicode.com/todos");
+		const response = await fetch("https://raw.githubusercontent.com/AzureBin/react-test/master/assets/products.json");
 
 		// let response = await fetch("https://raw.githubusercontent.com/AzureBin/react-test/master/assets/products.json");
-		// let sdf;
-		// if (response.ok) {
-		//     sdf = await response.json();
-		// }
+		let sdf: ListItemsType[] = [];
+		if (response.ok) {
+			sdf = (await response.json()) as ListItemsType[];
+		}
 		debugger;
 		console.log(sdf);
 	};

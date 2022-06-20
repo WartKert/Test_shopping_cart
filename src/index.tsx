@@ -6,7 +6,7 @@ import backgraundHeader from "./image/background_header.jpg";
 import { Provider } from "react-redux";
 import { store } from "./redux_state/state";
 import { useDispatch } from "react-redux";
-import { getListItems, ThunkType } from "./components/main/catalog/fetch";
+import { getListItems, ThunkType } from "./redux_state/fetch";
 import { AnyAction } from "redux";
 
 function Index() {
