@@ -5,7 +5,6 @@ import imgBasketFull from "../../image/basket_full_48px.png";
 import styles from "./header.module.css";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { RootState } from "../../redux_state/state";
-import { type } from "os";
 
 type HeaderProps = {};
 

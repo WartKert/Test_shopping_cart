@@ -1,9 +1,4 @@
-import { configureStore, createAction } from "@reduxjs/toolkit";
-import { combineReducers, legacy_createStore as createStore } from "redux";
-import { composeWithDevTools } from "@reduxjs/toolkit/dist/devtoolsExtension";
-import { devToolsEnhancerLogOnlyInProduction } from "@redux-devtools/extension";
-import { ThunkAction } from "redux-thunk";
-import { AppStateType } from "./state";
+import { ActionsTypes, ThunkType } from "./state";
 
 const ADD_ITEM_TO_SHOP = "ADD_ITEM_TO_SHOP";
 const ADD_ALL_ITES_TO_SHOP = "ADD_ALL_ITES_TO_SHOP";
@@ -40,7 +35,7 @@ function itemsReducer(state: ItemsStateType = initState, action: ActionsTypes): 
 
 export { itemsReducer };
 
-type AddItemToShopActionType = {
+export type AddItemToShopActionType = {
 	type: typeof ADD_ITEM_TO_SHOP;
 	payload: {
 		name: string;
@@ -63,7 +58,7 @@ type ListItemsFromServerType = {
 	brand2: number;
 };
 
-type AddAllItemsToShopActionType = {
+export type AddAllItemsToShopActionType = {
 	type: typeof ADD_ALL_ITES_TO_SHOP;
 	payload: {
 		arrayOfItems: Array<ListItemsFromServerType> | null;
@@ -87,7 +82,3 @@ export const getListItems = (): ThunkType => {
 		dispatch(addAllItemsToShopAction(data));
 	};
 };
-
-export type ActionsTypes = AddItemToShopActionType | AddAllItemsToShopActionType;
-
-export type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>;

@@ -6,8 +6,10 @@ import backgraundHeader from "./image/background_header.jpg";
 import { Provider } from "react-redux";
 import { store } from "./redux_state/state";
 import { useDispatch } from "react-redux";
-import { getListItems, ThunkType } from "./redux_state/fetch";
+import {} from "./redux_state/brands";
 import { AnyAction } from "redux";
+import { Aside } from "./components/aside/aside";
+import { Catalog } from "./components/main/catalog";
 
 function Index() {
 	return (
@@ -16,8 +18,12 @@ function Index() {
 				<header className={styles.header} style={{ background: `url(${backgraundHeader})` }}>
 					<Header />
 				</header>
-				<aside className={styles.aside}></aside>
-				<main className={styles.main}></main>
+				<aside className={styles.aside}>
+					<Aside />{" "}
+				</aside>
+				<main className={styles.main}>
+					<Catalog />
+				</main>
 				<footer className={styles.footer}></footer>
 			</Provider>
 		</div>
