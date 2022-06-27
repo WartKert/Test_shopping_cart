@@ -55,7 +55,7 @@ type ListItemsFromServerType = {
 	title: string;
 	regular_price: { currency: string; value: number };
 	image: string;
-	brand2: number;
+	brand: number;
 };
 
 export type AddAllItemsToShopActionType = {

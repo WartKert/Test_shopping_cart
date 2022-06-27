@@ -9,8 +9,7 @@ let curNumCol: number;
 
 type StyleGridType = {
 	display: "grid";
-	border: string;
-	["grid-template"]: string;
+	["gridTemplate"]: string;
 	["gap"]: string;
 };
 
@@ -38,7 +37,8 @@ export let Catalog: React.FC = (): JSX.Element => {
 
 	function calcStylesGrid(curNumCol: number, elem: React.RefObject<HTMLElement>): StyleGridType {
 		const sizeElem: DOMRect | undefined = elem.current?.getBoundingClientRect();
-		const sizeGap: number = 20;
+		const sizeGap: number = Math.max(60 - (curNumCol - 1) * 10, 20);
+		// sizeGap -=
 
 		const calcWidthCol = (): string => {
 			const widthCol: number = (sizeElem!.width ?? null) / curNumCol - sizeGap * (curNumCol - 1);
@@ -47,7 +47,7 @@ export let Catalog: React.FC = (): JSX.Element => {
 
 			let wordRow: string = "";
 			let wordCol: string = "";
-
+			// debugger;
 			for (let i = 0; i < sumNumCell / curNumCol; i++) {
 				wordRow = wordRow.concat(`${heightCol}px `);
 			}
@@ -58,8 +58,7 @@ export let Catalog: React.FC = (): JSX.Element => {
 		};
 		return {
 			display: "grid",
-			border: "2px solid black",
-			["grid-template"]: `${calcWidthCol()}`,
+			["gridTemplate"]: `${calcWidthCol()}`,
 			["gap"]: `${sizeGap}px ${sizeGap}px`,
 		};
 	}
@@ -71,7 +70,7 @@ export let Catalog: React.FC = (): JSX.Element => {
 			</div>
 			<h2 className={styles.row}>Catalog</h2>
 			<div className={styles.blockCatalog} style={styleGrid} ref={refDivBLock}>
-				<ShowItems curNumCol={curNumCol} />
+				<ShowItems />
 			</div>
 		</React.Fragment>
 	);
