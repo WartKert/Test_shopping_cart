@@ -18,3 +18,9 @@
 .text {
 	padding: 0.2em;
 }
+
+.blockCatalog {
+	padding: 2.7em;
+	/* margin: 0.7em; */
+	/* width: 100%; */
+}

@@ -3,7 +3,7 @@ import styles from "./catalog.module.css";
 import { useSelector } from "react-redux";
 import { AppStateType, RootState } from "../../redux_state/state";
 import { ButtonsScale } from "./catalog/button/buttons_scale";
-import { ShowItems } from "./catalog/content/content";
+import { Content } from "./catalog/content/content";
 
 let curNumCol: number;
 
@@ -38,7 +38,6 @@ export let Catalog: React.FC = (): JSX.Element => {
 	function calcStylesGrid(curNumCol: number, elem: React.RefObject<HTMLElement>): StyleGridType {
 		const sizeElem: DOMRect | undefined = elem.current?.getBoundingClientRect();
 		const sizeGap: number = Math.max(60 - (curNumCol - 1) * 10, 20);
-		// sizeGap -=
 
 		const calcWidthCol = (): string => {
 			const widthCol: number = (sizeElem!.width ?? null) / curNumCol - sizeGap * (curNumCol - 1);
@@ -47,7 +46,7 @@ export let Catalog: React.FC = (): JSX.Element => {
 
 			let wordRow: string = "";
 			let wordCol: string = "";
-			// debugger;
+
 			for (let i = 0; i < sumNumCell / curNumCol; i++) {
 				wordRow = wordRow.concat(`${heightCol}px `);
 			}
@@ -69,9 +68,9 @@ export let Catalog: React.FC = (): JSX.Element => {
 				<ButtonsScale eventAddGrid={onAddCell} eventSubGrid={onSubCell} />
 			</div>
 			<h2 className={styles.row}>Catalog</h2>
-			<div className={styles.blockCatalog} style={styleGrid} ref={refDivBLock}>
-				<ShowItems />
-			</div>
+			{/* <div className={styles.blockCatalog} style={styleGrid} ref={refDivBLock} onClick={}> */}
+			<Content class={styles.blockCatalog} style={styleGrid} ref={refDivBLock} />
+			{/* </div> */}
 		</React.Fragment>
 	);
 };
