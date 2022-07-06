@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { PropsWithChildren, ReactElement } from "react";
 import ReactDOM from "react-dom";
 import styles from "./modal_window.module.css";
 
@@ -10,9 +10,13 @@ type PropsModalWindowType = {
 function ModalWindow(props: PropsModalWindowType): JSX.Element {
 	console.log("Render Modal");
 
+	function toShow(children: React.ReactNode) {
+		return React.cloneElement(children as ReactElement<PropsWithChildren<{ className: string }>>, { className: `${styles.gridElem}` });
+	}
+
 	return ReactDOM.createPortal(
 		<div className={styles.window}>
-			<div className={styles.element}>{props.children}</div>
+			<div className={styles.element}>{toShow(props.children)}</div>
 		</div>,
 		document.body
 	);

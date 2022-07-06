@@ -1,26 +1,64 @@
 .gridElem {
+	padding: 0.2em;
 	min-width: 0%;
 	border: 2px solid black;
-	border-radius: 48px;
-	transition: transform 0.3s, box-shadow 0.3s ease-in-out;
+	border-radius: 8px;
+	/* transition: transform 0.3s, box-shadow 0.3s ease-in-out; */
+	display: grid;
+	grid-template-areas:
+		"IMG IMG"
+		"TEXT TEXT"
+		"VAL ST";
+	grid-template-rows: auto auto 30px;
 }
 
 .gridElem:hover {
 	box-shadow: 0px 0px 11px yellowgreen;
-	transform: scale(1.1, 1.1);
+	/* transform: scale(1.1, 1.1); */
 }
 
-.image {
+.imgItem {
 	display: block;
 	width: 100%;
+	cursor: pointer;
+	grid-area: IMG;
+}
+
+.buttonCart {
+	cursor: pointer;
+}
+
+.imgCart {
+	display: block;
+	margin: auto;
+	cursor: pointer;
+	grid-area: ST;
+}
+
+.textBlock {
+	grid-area: TEXT;
 }
 
 .text {
 	padding: 0.2em;
+	/* width: 100%; */
+	font-size: 1em;
 }
 
 .blockCatalog {
 	padding: 2.7em;
 	/* margin: 0.7em; */
 	/* width: 100%; */
+}
+.input {
+	width: auto;
+}
+
+.input::placeholder {
+	font-size: 0.8em;
+	color: rgb(161, 161, 161);
+}
+
+.input:invalid {
+	background-color: red;
 }
