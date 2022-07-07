@@ -1,10 +1,10 @@
 import React from "react";
-import imgLogo from "../../image/logo.png";
-import imgBasketFree from "../../image/basket_free_48px.png";
+import imgLogo from "../../../image/logo.png";
+import imgBasketFree from "../../../image/basket_free_48px.png";
 import imgBasketFull from "../../image/basket_full_48px.png";
 import styles from "./header.module.css";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
-import { RootState } from "../../redux_state/state";
+import { RootState } from "../../../redux_state/state";
 
 type HeaderProps = {};
 
@@ -15,7 +15,7 @@ interface stateType {
 const useAppSel: TypedUseSelectorHook<RootState> = useSelector;
 
 export function Header() {
-	const item = useAppSel((state: RootState) => {
+	const item = useAppSel((state) => {
 		return state.items.cntItem;
 	});
 	console.log("Header", item);

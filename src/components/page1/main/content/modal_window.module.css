@@ -8,7 +8,8 @@
 	background-color: rgba(102, 102, 102, 0.5);
 }
 .element {
-	width: 70vw;
+	width: 80vw;
+	max-width: 800px;
 	margin: auto;
 }
 .gridElem {

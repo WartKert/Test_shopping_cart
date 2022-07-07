@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./catalog.module.css";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux_state/state";
-import { ButtonsScale } from "./catalog/button/buttons_scale";
-import { Content } from "./catalog/content/content";
+import { RootState } from "../../../redux_state/state";
+import { ButtonsScale } from "./button/buttons_scale";
+import { Content } from "./content/content";
 
 let curNumCol: number;
 

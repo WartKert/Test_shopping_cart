@@ -1,0 +1,28 @@
+.body {
+	height: 100vh;
+	display: grid;
+	grid-template-areas:
+		"header header"
+		"aside main"
+		"footer footer";
+	grid-template-rows: 10% 1fr 3%;
+	grid-template-columns: 20% 1fr;
+	font-size: 16px;
+}
+
+.header {
+	grid-area: header;
+	/* background-image: "url(src/image/background_logo.jpg)"; */
+}
+
+.aside {
+	grid-area: aside;
+}
+
+.content {
+	grid-area: main;
+}
+
+.footer {
+	grid-area: footer;
+}

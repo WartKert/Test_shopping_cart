@@ -1,8 +1,8 @@
 import React, { FC, FunctionComponent } from "react";
 import styles from "./aside.module.css";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux_state/state";
-import { ListBrandsFromServerType } from "../../redux_state/brands";
+import { RootState } from "../../../redux_state/state";
+import { ListBrandsFromServerType } from "../../../redux_state/brands";
 
 type HeaderProps = {};
 
