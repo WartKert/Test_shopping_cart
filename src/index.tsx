@@ -11,19 +11,22 @@ import { Aside } from "./components/page1/aside/aside";
 import { Catalog } from "./components/page1/main/catalog";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Page1 from "./components/page1/page1";
+import Page2 from "./components/page2/page2";
 
 function Index() {
 	return (
-		<div className={styles.body}>
+		<React.Fragment>
 			<Provider store={store}>
 				<HashRouter>
 					<Routes>
 						<Route path='/' element={<Page1 />} />
+						<Route path='shopping_cart' element={<Page2 />} />
 						<Route path='*' element={<p> Error </p>} />
 					</Routes>
+					<footer className={styles.footer}></footer>
 				</HashRouter>
 			</Provider>
-		</div>
+		</React.Fragment>
 	);
 }
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);

@@ -8,8 +8,10 @@
 	grid-template-areas:
 		"IMG IMG"
 		"TEXT TEXT"
+		"COL COL"
+		"SZ SZ"
 		"VAL ST";
-	grid-template-rows: auto auto 30px;
+	grid-template-rows: auto auto auto auto 30px;
 }
 
 .gridElem:hover {
@@ -19,9 +21,11 @@
 
 .imgItem {
 	display: block;
-	width: 100%;
+	height: 100%;
 	cursor: pointer;
 	grid-area: IMG;
+	max-width: 100%;
+	margin: auto;
 }
 
 .buttonCart {
@@ -37,6 +41,7 @@
 
 .textBlock {
 	grid-area: TEXT;
+	background-color: white;
 }
 
 .text {
@@ -50,6 +55,36 @@
 	/* margin: 0.7em; */
 	/* width: 100%; */
 }
+
+.selectColor {
+	grid-area: COL;
+	display: flex;
+	padding: 0.2em;
+	overflow: hidden;
+}
+
+.selectSize {
+	grid-area: SZ;
+	display: flex;
+	padding: 0.2em;
+	overflow: hidden;
+}
+
+.optCellColor::before {
+	content: "00";
+	color: transparent;
+	display: inline-block;
+	/* height: 100%; */
+}
+.optCell {
+	margin: 2px;
+	align-self: center;
+	border: 1px solid black;
+	text-align: center;
+	background-color: white;
+	cursor: pointer;
+}
+
 .input {
 	width: auto;
 }
@@ -61,4 +96,26 @@
 
 .input:invalid {
 	background-color: red;
+}
+.check {
+	position: absolute;
+	opacity: 0;
+	z-index: -1;
+	top: 0px;
+	left: 0px;
+}
+
+.label {
+	display: block;
+	cursor: pointer;
+	padding: 3px;
+	user-select: none;
+}
+
+.blockOptions {
+	position: relative;
+	margin: 0.3em;
+	overflow: hidden;
+	border: 1px solid black;
+	/* cursor: pointer; */
 }

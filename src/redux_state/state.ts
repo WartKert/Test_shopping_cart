@@ -30,3 +30,5 @@ export type RootState = ReturnType<typeof store.getState>;
 export type ActionsTypes = AddItemToShopActionType | AddAllItemsToShopActionType | AddAllBrandsToShopActionType;
 
 export type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes>;
+
+export type TypeDispatch = typeof store.dispatch;

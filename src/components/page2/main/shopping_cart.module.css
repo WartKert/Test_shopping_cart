@@ -1,0 +1,65 @@
+.row {
+	/* display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	justify-content: space-between; */
+}
+
+/* .body {
+	display: grid;
+	grid-template-areas:
+		"item price count total "
+		"content content content content"
+		"subtotal subtotal subtotal subtotal"
+		"button button  button button";
+	grid-template-rows: auto 1fr 10% 10%;
+	grid-template-columns: 60% 1fr 1fr 1fr;
+	row-gap: 12px;
+	height: 100%;
+} */
+
+.body {
+	display: flex;
+	flex-wrap: wrap;
+	/* flex:  1 200px; */
+	min-width: 410px;
+}
+
+.column1 {
+	/* grid-area: item; */
+	/* width: 100%; */
+	/* border-bottom: 13px dashed rgb(206, 206, 206); */
+	flex: 5 1 50%;
+}
+.column {
+	/* grid-area: price;
+	width: 100%; */
+	flex: 1 1 16.66666%;
+	max-width: 130px;
+}
+.column3 {
+	flex: 1 1 16.66666%;
+	max-width: 130px;
+	/* grid-area: count;
+	width: 100%; */
+}
+.column4 {
+	flex: 1 1 16.66666%;
+	max-width: 130px;
+	/* grid-area: total;
+	width: 100%; */
+}
+
+.column_title {
+	padding: 0.5em;
+	text-align: center;
+	background-color: white;
+	/* box-shadow: 0px 12px 0px 0px rgba(94, 113, 128, 0.15); */
+}
+
+.content {
+	grid-area: content;
+	box-shadow: 0px 12px 0px 0px rgba(94, 113, 128, 0.15);
+	background-color: white;
+	/* background-color: white; */
+}

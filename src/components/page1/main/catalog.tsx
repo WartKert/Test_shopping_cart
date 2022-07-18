@@ -11,7 +11,7 @@ type StyleGridType = {
 	display: "grid";
 	["gridTemplate"]: string;
 	["gap"]: string;
-	["font-size"]: string;
+	["fontSize"]: string;
 };
 
 export let Catalog: React.FC = (): JSX.Element => {
@@ -61,7 +61,7 @@ export let Catalog: React.FC = (): JSX.Element => {
 			display: "grid",
 			["gridTemplate"]: `${calcWidthCol()}`,
 			["gap"]: `${sizeGap}px ${sizeGap}px`,
-			["font-size"]: `${widthCol < 70 ? "10px" : widthCol < 90 ? "14px" : widthCol < 110 ? "15px" : "16px"}`,
+			["fontSize"]: `${widthCol < 70 ? "10px" : widthCol < 90 ? "14px" : widthCol < 110 ? "15px" : "16px"}`,
 		};
 	}
 

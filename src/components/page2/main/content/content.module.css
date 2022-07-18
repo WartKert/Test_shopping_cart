@@ -1,0 +1,8 @@
+.body {
+	display: grid;
+	grid-template-areas:
+		"IMG IMG"
+		"TEXT TEXT"
+		"VAL ST";
+	grid-template-rows: auto auto 30px;
+}

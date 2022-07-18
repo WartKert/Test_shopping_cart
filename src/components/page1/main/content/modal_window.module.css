@@ -19,6 +19,8 @@
 	grid-template-areas:
 		"IMG IMG"
 		"TEXT TEXT"
+		"COL COL"
+		"SZ SZ"
 		"VAL ST";
-	grid-template-rows: auto auto 30px;
+	grid-template-rows: auto auto auto auto 30px;
 }

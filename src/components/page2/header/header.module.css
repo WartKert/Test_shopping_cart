@@ -1,0 +1,11 @@
+.imageBlock {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	height: 100%;
+}
+
+.image {
+	align-self: center;
+	padding: 3%;
+}

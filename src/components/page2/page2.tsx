@@ -1,10 +1,11 @@
 import React from "react";
 import { Header } from "./header/header";
-import styles from "./page1.module.css";
+import styles from "./page2.module.css";
 import backgraundHeader from "../../image/background_header.jpg";
+import { Shopping_cart } from "./main/shopping_cart";
 // import {} from "./redux_state/brands";
-import { Aside } from "./aside/aside";
-import { Catalog } from "./main/catalog";
+// import { Aside } from "./aside/aside";
+// import { Catalog } from "./main/catalog";
 
 function Page1(): JSX.Element {
 	return (
@@ -12,11 +13,9 @@ function Page1(): JSX.Element {
 			<header className={styles.header} style={{ background: `url(${backgraundHeader})` }}>
 				<Header />
 			</header>
-			<aside className={styles.aside}>
-				<Aside />{" "}
-			</aside>
+			<h3 className={styles.title}> Shopping cart</h3>
 			<main className={styles.main}>
-				<Catalog />
+				<Shopping_cart />
 			</main>
 		</div>
 	);
