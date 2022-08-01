@@ -2,6 +2,7 @@ import { ActionsTypes, ThunkType } from "./state";
 
 const ADD_ITEM_TO_SHOP = "ADD_ITEM_TO_SHOP";
 const ADD_ALL_ITES_TO_SHOP = "ADD_ALL_ITES_TO_SHOP";
+const SELECT_ITEM = "SELECT_ITEM";
 
 interface actionType {
 	type: string;
@@ -10,7 +11,7 @@ interface actionType {
 
 const initState = {
 	cntItem: 0,
-	arrayOfItems: null as Array<ListItemsFromServerType> | null,
+	arrayOfItems: null as Array<ListItemsType> | null,
 };
 
 type ItemsStateType = typeof initState;
@@ -28,6 +29,21 @@ function itemsReducer(state: ItemsStateType = initState, action: ActionsTypes): 
 			return {
 				...state,
 				...action.payload,
+			};
+		case SELECT_ITEM:
+			return {
+				...state,
+				arrayOfItems: state.arrayOfItems!.map((elem) => {
+					if (elem.id === action.payload.toId) {
+						return (elem = {
+							...elem,
+							selected: action.payload.selected ? action.payload.selected?.map((elem) => elem) : null,
+							selectItem: action.payload.selectItem,
+						});
+					}
+
+					return elem;
+				}),
 			};
 		default:
 	}
@@ -66,12 +82,12 @@ export type ValuesSizeType = {
 	values: { [key: string]: { label: string; value_index: number; value: number } };
 };
 
-type VariantsType = {
+export type VariantsType = {
 	attributes: { [key: string]: { code: string; value_index: number } };
 	product: { id: number; sku: string; image: string };
 };
 
-export type ListItemsFromServerType = {
+interface ListItemsFromServerType {
 	type: string;
 	id: number;
 	sku: string;
@@ -80,8 +96,19 @@ export type ListItemsFromServerType = {
 	image: string;
 	brand: number;
 	configurable_options?: { [key: string]: ValuesColorType | ValuesSizeType };
-	variants?: { [key: string]: VariantsType };
+	variants?: { [key: number]: VariantsType };
+}
+
+export type SelectItemType = {
+	Color: number | null;
+	Size: number | null;
 };
+
+export interface ListItemsType extends ListItemsFromServerType {
+	numberOfItems: number;
+	selected: VariantsType[] | null;
+	selectItem: SelectItemType;
+}
 
 export const addItemToShopAction = (name: string, amount: number): AddItemToShopActionType => ({
 	type: ADD_ITEM_TO_SHOP,
@@ -91,13 +118,27 @@ export const addItemToShopAction = (name: string, amount: number): AddItemToShop
 export type AddAllItemsToShopActionType = {
 	type: typeof ADD_ALL_ITES_TO_SHOP;
 	payload: {
-		arrayOfItems: Array<ListItemsFromServerType> | null;
+		arrayOfItems: Array<ListItemsType> | null;
 	};
 };
 
-export const addAllItemsToShopAction = (arrayOfItems: Array<ListItemsFromServerType> | null): AddAllItemsToShopActionType => ({
+export const addAllItemsToShopAction = (arrayOfItems: Array<ListItemsType> | null): AddAllItemsToShopActionType => ({
 	type: ADD_ALL_ITES_TO_SHOP,
 	payload: { arrayOfItems },
+});
+
+export type SelectItemActionType = {
+	type: typeof SELECT_ITEM;
+	payload: {
+		selected: VariantsType[] | null;
+		selectItem: SelectItemType;
+		toId: number;
+	};
+};
+
+export const selectItemAction = (toId: number, selected: VariantsType[] | null, selectItem: SelectItemType): SelectItemActionType => ({
+	type: SELECT_ITEM,
+	payload: { selected, selectItem, toId },
 });
 
 export const getListItems = (): ThunkType => {
@@ -106,9 +147,12 @@ export const getListItems = (): ThunkType => {
 		let data: Array<ListItemsFromServerType> | null = null;
 		if (response.ok) {
 			data = (await response.json()) as ListItemsFromServerType[];
+			data = (data as ListItemsType[]).map((elem: ListItemsType) => {
+				return (elem = { ...elem, numberOfItems: 0, selected: null, selectItem: { Color: null, Size: null } });
+			});
 		}
 
 		console.log(data);
-		dispatch(addAllItemsToShopAction(data));
+		dispatch(addAllItemsToShopAction(data as ListItemsType[]));
 	};
 };

@@ -61,6 +61,14 @@
 	display: flex;
 	padding: 0.2em;
 	overflow: hidden;
+	pointer-events: auto;
+	color: transparent;
+}
+
+.isSelected {
+	opacity: 0.1;
+	background-color: gray;
+	pointer-events: none;
 }
 
 .selectSize {
@@ -117,5 +125,16 @@
 	margin: 0.3em;
 	overflow: hidden;
 	border: 1px solid black;
-	/* cursor: pointer; */
+	cursor: pointer;
+	padding: 3px;
+	user-select: none;
+}
+
+.isBlockOptions {
+	pointer-events: none;
+	background-color: gray;
+}
+
+.test {
+	background-color: red;
 }
