@@ -1,33 +1,13 @@
-import React, {
-	ChangeEvent,
-	ChangeEventHandler,
-	Dispatch,
-	useState,
-	MouseEvent,
-	CSSProperties,
-	ElementType,
-	HTMLAttributes,
-	ImgHTMLAttributes,
-	ReactElement,
-	PropsWithChildren,
-} from "react";
+import React, { ChangeEvent, useState, MouseEvent, ReactElement, PropsWithChildren } from "react";
 import styles from "./content.module.css";
 import { useSelector } from "react-redux";
-import { ActionsTypes, RootState, TypeDispatch } from "../../../../redux_state/state";
-import { ModalWindow } from "./modal_window";
+import { RootState, TypeDispatch } from "../../../../redux_state/state";
 import shopping_cart from "../../../../image/shopping-cart.png";
 import { useDispatch } from "react-redux";
-import {
-	addItemToShopAction,
-	selectItemAction,
-	SelectItemType,
-	ValuesColorType,
-	ValuesSizeType,
-	VariantsType,
-} from "../../../../redux_state/items";
+import { changeValueItemAction, selectItemAction, VariantsType } from "../../../../redux_state/items";
 import { CreateCell } from "./create_cell";
 import { CreateElement } from "../../../create_element";
-import { type } from "os";
+import { addItemToShoppingCartAction, ListShoppingCartType } from "../../../../redux_state/shopping_cart";
 
 type ContentPropsType = {
 	onResize?: () => void;
@@ -36,80 +16,16 @@ type ContentPropsType = {
 	ref: any;
 };
 
-let df: JSX.IntrinsicElements;
-
 const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref): JSX.Element => {
-	let store: React.ReactNode[];
-	console.log("Render Content");
-
 	const stateItems = useSelector((state: RootState) => state.items).arrayOfItems;
+	const stateFilter = useSelector((state: RootState) => state.brands);
+	const stateShop = useSelector((state: RootState) => state.shopping);
 	const ItemDispatch = useDispatch<TypeDispatch>();
-	const [PopUp, setPopUp] = useState<React.ReactNode>(null);
-	// const [selectColor, setselectColor] = useState<{ [key: number]: number }>();
-	// const [selectSize, setselectSize] = useState<{ [key: number]: number }>();
-
-	// roperty) JSX.IntrinsicElements.img: React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>
-	// const createDivElement: JSX.Element[] | string =
-	// 	stateItems?.map((elem): JSX.Element => {
-	// function extract(elem: ListItemsFromServerType, num: number): JSX.Element {
-	// 	const option = elem.configurable_options?.[num];
-
-	// 	if (option) {
-	// 		return (
-	// 			<React.Fragment>
-	// 				{Object.values(option.values).map(
-	// 					(subElem: { label: string; value_index: number; value: string | number }, index: number) => {
-	// 						if (changeColor.id && elem.id != changeColor.id) {
-	// 							return (
-	// 								<React.Fragment>
-	// 									<div className={styles.blockOptions + " " + styles.isBlockOptions}></div>
-	// 								</React.Fragment>
-	// 							);
-	// 						} else {
-	// 						}
-
-	// 						return (
-	// 							<div className={styles.blockOptions}>
-	// 								<label
-	// 									htmlFor={option.label + " " + subElem.label + " " + subElem.value_index}
-	// 									style={
-	// 										option.label === "Color"
-	// 											? { ["backgroundColor"]: `${subElem.value}`, ["color"]: "transparent" }
-	// 											: {}
-	// 									}
-	// 									className={styles.label}
-	// 								>
-	// 									<span>{option.label === "Color" ? "00" : subElem.label}</span>
-	// 								</label>
-	// 								<input
-	// 									type={"checkbox"}
-	// 									className={styles.check}
-	// 									id={option.label + " " + subElem.label + " " + subElem.value_index}
-	// 									data-check={option.label}
-	// 								/>
-	// 							</div>
-	// 						);
-	// 					}
-	// 				)}
-	// 			</React.Fragment>
-	// 		);
-	// 	} else return <React.Fragment></React.Fragment>;
-	// }
-
-	// 	return (
-
-	// 			{/* <div className={styles.selectColor}>{extract(elem, 0)} </div>
-	// 			<div className={styles.selectSize}>{extract(elem, 1)}</div> */}
-
-	// ) ?? "Нет записей в каталоге";
 
 	function handlerOnClick(event: MouseEvent<HTMLInputElement>) {
 		switch ((event.target as HTMLInputElement).dataset["modal"]) {
 			case "addItemToCart":
-				onAddToShoppingCart(event);
-				break;
-			case "windowPopup":
-				onResizeCell(event);
+				onAddToShoppingCart(event.target as HTMLButtonElement);
 				break;
 			case "inputValue":
 				break;
@@ -118,15 +34,12 @@ const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref):
 			case "select":
 				searchVariant(event.target as HTMLDivElement);
 				break;
-
 			default:
-				if (PopUp) setPopUp(null);
 				break;
 		}
 	}
 
-	function name(label: string, colorId: string, id: string) {
-		// debugger;
+	function selectItem(label: string, colorId: string, id: string) {
 		let itemObj = stateItems?.find((elem) => elem.id === Number(id));
 
 		if (itemObj) {
@@ -163,10 +76,10 @@ const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref):
 
 		switch (label) {
 			case "Color":
-				name(label, colorId, id);
+				selectItem(label, colorId, id);
 				break;
 			case "Size":
-				name(label, colorId, id);
+				selectItem(label, colorId, id);
 				break;
 
 			default:
@@ -175,38 +88,51 @@ const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref):
 	}
 
 	function handlerOnChange(event: ChangeEvent<HTMLInputElement>) {
-		debugger;
-		const elem = event.target;
-		switch (elem.dataset["check"]) {
-			case "inputValue":
+		const [label, id] = event.target.id.split(" ");
+		switch (label) {
+			case "Input":
+				ItemDispatch(changeValueItemAction({ ["numberOfItems"]: Number(event.target.value), toId: Number(id) }));
 				break;
-
 			default:
 				break;
 		}
+	}
 
-		function searchItem(num: number) {
-			// stateItems[num];
+	function onAddToShoppingCart(event: HTMLButtonElement) {
+		const [, id] = event.id.split(" ");
+		const objItem = stateItems?.find((elem) => elem.id === Number(id));
+		if (
+			objItem &&
+			objItem.numberOfItems &&
+			(objItem.type === "configurable" ? objItem.selectItem.Color && objItem.selectItem.Size : true)
+		) {
+			let cart: { items: ListShoppingCartType } = {
+				items: {
+					title: objItem.title,
+					regular_price: { currency: objItem.regular_price.currency, value: objItem.regular_price.value },
+					brand: objItem.brand,
+					numberOfItems: objItem.numberOfItems,
+					product: objItem.selected ? objItem.selected[0].product : { id: objItem.id, sku: objItem.sku, image: objItem.image },
+				},
+			};
+
+			let index: number = stateShop.items
+				? Object.values(stateShop.items).findIndex((elem) => elem.product.id === cart.items!.product.id)
+				: -1;
+
+			const arrayOut: ListShoppingCartType[] =
+				index >= 0
+					? Object.values(stateShop.items!).map((elem) => {
+							return elem.product.id === cart.items.product.id
+								? { ...elem, numberOfItems: cart.items!.numberOfItems + elem.numberOfItems }
+								: elem;
+					  })
+					: stateShop.items
+					? Object.values(stateShop.items).concat(Object.values(cart))
+					: Object.values(cart); // }
+
+			ItemDispatch(addItemToShoppingCartAction(arrayOut));
 		}
-
-		const word: string | undefined = event.target.closest("div")?.dataset["modal"];
-	}
-
-	function onAddToShoppingCart(event: React.MouseEvent<HTMLInputElement>) {
-		const word: string | undefined = (event.target as HTMLDivElement).closest("div")?.dataset["modal"]?.slice(5);
-	}
-
-	function onResizeCell(event: React.MouseEvent<HTMLDivElement>) {
-		const word: string | undefined = (event.target as HTMLDivElement).closest("div")?.dataset["modal"]?.slice(5);
-		if (word && !PopUp) {
-			setPopUp(store[Number(word) - 1]);
-		} else {
-			setPopUp(null);
-		}
-	}
-
-	function callBack(dataChild: React.ReactNode) {
-		store = React.Children.toArray(dataChild);
 	}
 
 	function editOption(child: React.ReactNode, ...otherData: any[]): React.ReactNode {
@@ -228,16 +154,18 @@ const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref):
 
 				if (valIndex === Number(curValueIndex)) {
 					tempChild = child;
+
+					if (obj.selectItem[label as keyof typeof obj.selectItem] === Number(curValueIndex)) {
+						tempChild = React.cloneElement(child as ReactElement<PropsWithChildren<{ className: string }>>, {
+							className: `${(child as ChildType).props.className}` + " " + `${styles.isSelected}`,
+						});
+					}
 					break;
 				}
 
-				tempChild = React.cloneElement(
-					child as ReactElement<PropsWithChildren<{ className: string; style: { ["backgroundColor"]: string } }>>,
-					{
-						className: `${(child as ChildType).props.className}` + " " + `${styles.isSelected}`,
-						style: { ["backgroundColor"]: "gray" },
-					}
-				);
+				tempChild = React.cloneElement(child as ReactElement<PropsWithChildren<{ className: string }>>, {
+					className: `${(child as ChildType).props.className}` + " " + `${styles.isNotSelected}`,
+				});
 			}
 			return tempChild;
 		}
@@ -245,8 +173,11 @@ const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref):
 
 	return (
 		<div className={props.class} style={props.style} ref={ref} onClick={handlerOnClick} onChange={handlerOnChange}>
-			<CreateCell callBack={callBack}>
+			<CreateCell>
 				{stateItems?.map((elem) => {
+					if (stateFilter.filterIdBrands) {
+						if (!stateFilter.filterIdBrands.includes(elem.brand)) return null;
+					}
 					return (
 						<CreateElement
 							Tag={"div"}
@@ -261,7 +192,19 @@ const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref):
 								Tag={"img"}
 								data={{
 									className: `${styles.imgItem}`,
-									src: "https://raw.githubusercontent.com/AzureBin/react-test/master/assets" + `${elem.image}`,
+									src:
+										"https://raw.githubusercontent.com/AzureBin/react-test/master/assets" +
+										`${
+											elem.selectItem.Color && elem.selectItem.Size && elem.variants
+												? `${
+														Object.values(elem.variants).find(
+															(subelem) =>
+																subelem.attributes[0].value_index === elem.selectItem.Color &&
+																subelem.attributes[1].value_index === elem.selectItem.Size
+														)?.product.image
+												  }`
+												: `${elem.image}`
+										}`,
 									alt: "Изображение продукта",
 									["data-modal"]: "windowPopup",
 								}}
@@ -298,6 +241,7 @@ const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref):
 												return (
 													<div
 														className={styles.blockOptions}
+														key={subElem.value_index}
 														style={{ ["backgroundColor"]: `${subElem.value}` }}
 														data-modal='select'
 														id={
@@ -330,6 +274,7 @@ const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref):
 												return (
 													<div
 														className={styles.blockOptions}
+														key={subElem.value_index}
 														data-modal='select'
 														id={
 															`${elem.configurable_options![1].label}` +
@@ -349,13 +294,14 @@ const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref):
 								Tag={"input"}
 								data={{
 									className: `${styles.input + " " + styles.text}`,
+									id: `Input ${elem.id}`,
 									type: "number",
 									min: 0,
 									max: 999,
 									step: 1,
 									placeholder: "Количество",
+									defaultValue: `${elem.numberOfItems}`,
 									["data-modal"]: "skip",
-									["data-check"]: "inputValue",
 								}}
 							/>
 
@@ -363,6 +309,7 @@ const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref):
 								Tag={"button"}
 								data={{
 									className: `${styles.buttonCart}`,
+									id: `Button ${elem.id}`,
 									["data-modal"]: "addItemToCart",
 								}}
 							>
@@ -371,10 +318,11 @@ const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref):
 									Tag={"img"}
 									data={{
 										className: `${styles.imgCart}`,
+										id: `Button ${elem.id}`,
 										src: `${shopping_cart}`,
 										alt: "Купить",
 										title: "Добавить в корзину",
-										["data-modal"]: "cartPopup",
+										["data-modal"]: "addItemToCart",
 									}}
 								/>
 							</CreateElement>
@@ -382,55 +330,8 @@ const Content = React.forwardRef<HTMLDivElement, ContentPropsType>((props, ref):
 					);
 				}) ?? <p>"Нет записей в каталоге"</p>}
 			</CreateCell>
-
-			{PopUp && <ModalWindow>{PopUp}</ModalWindow>}
 		</div>
 	);
 });
 
 export { Content };
-
-// function extract(elem: ListItemsFromServerType, num: number, callBack: (elem: ListItemsFromServerType) => void): JSX.Element {
-// 			const option = elem.configurable_options?.[num];
-
-// 			if (option) {
-// 				return (
-// 					<React.Fragment>
-// 						{Object.values(option.values).map(
-// 							(subElem: { label: string; value_index: number; value: string | number }, index: number) => {
-// 								if (changeColor.id && elem.id != changeColor.id) {
-// 									return (
-// 										<React.Fragment>
-// 											<div className={styles.blockOptions + " " + styles.isBlockOptions}></div>
-// 										</React.Fragment>
-// 									);
-// 								} else {
-// 								}
-
-// 								return (
-// 									<div className={styles.blockOptions}>
-// 										<label
-// 											htmlFor={option.label + " " + subElem.label + " " + subElem.value_index}
-// 											style={
-// 												option.label === "Color"
-// 													? { ["backgroundColor"]: `${subElem.value}`, ["color"]: "transparent" }
-// 													: {}
-// 											}
-// 											className={styles.label}
-// 										>
-// 											<span>{option.label === "Color" ? "00" : subElem.label}</span>
-// 										</label>
-// 										<input
-// 											type={"checkbox"}
-// 											className={styles.check}
-// 											id={option.label + " " + subElem.label + " " + subElem.value_index}
-// 											data-check={option.label}
-// 										/>
-// 									</div>
-// 								);
-// 							}
-// 						)}
-// 					</React.Fragment>
-// 				);
-// 			} else return <React.Fragment></React.Fragment>;
-// 		}

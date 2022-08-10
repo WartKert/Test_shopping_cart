@@ -1,20 +1,5 @@
-import React, {
-	ChangeEvent,
-	ChangeEventHandler,
-	Dispatch,
-	useState,
-	MouseEvent,
-	CSSProperties,
-	ElementType,
-	HTMLAttributes,
-	ImgHTMLAttributes,
-	PropsWithChildren,
-	ReactElement,
-	Children,
-} from "react";
-import { ListItemsType, VariantsType } from "../redux_state/items";
+import React, { PropsWithChildren } from "react";
 
-import styles from "./create_element.module.css";
 type CreateElementPropsType<T> = {
 	children?: React.ReactNode;
 	otherData?: any;

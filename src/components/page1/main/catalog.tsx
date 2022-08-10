@@ -15,7 +15,6 @@ type StyleGridType = {
 };
 
 export let Catalog: React.FC = (): JSX.Element => {
-	console.log("Render Catalog");
 	const refDivBLock = useRef<HTMLDivElement>(null);
 	const stateItems = useSelector((state: RootState) => state.items.arrayOfItems);
 	const [styleGrid, setStyleGrid] = useState<StyleGridType>();

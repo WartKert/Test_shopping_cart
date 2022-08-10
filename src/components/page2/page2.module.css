@@ -13,7 +13,6 @@
 
 .header {
 	grid-area: header;
-	/* background-image: "url(src/image/background_logo.jpg)"; */
 }
 
 .title {

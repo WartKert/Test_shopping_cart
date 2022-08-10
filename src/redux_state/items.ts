@@ -3,11 +3,7 @@ import { ActionsTypes, ThunkType } from "./state";
 const ADD_ITEM_TO_SHOP = "ADD_ITEM_TO_SHOP";
 const ADD_ALL_ITES_TO_SHOP = "ADD_ALL_ITES_TO_SHOP";
 const SELECT_ITEM = "SELECT_ITEM";
-
-interface actionType {
-	type: string;
-	payload: any;
-}
+const CHANGE_VALUE_ITEM = "CHANGE_VALUE_ITEM";
 
 const initState = {
 	cntItem: 0,
@@ -20,6 +16,21 @@ type ItemsStateType = typeof initState;
 function itemsReducer(state: ItemsStateType = initState, action: ActionsTypes): ItemsStateType {
 	// debugger;
 	switch (action.type) {
+		case CHANGE_VALUE_ITEM:
+			return {
+				...state,
+				arrayOfItems: state.arrayOfItems!.map((elem) => {
+					if (elem.id === action.payload.toId) {
+						return (elem = {
+							...elem,
+							numberOfItems: action.payload.numberOfItems,
+						});
+					}
+
+					return elem;
+				}),
+			};
+
 		case ADD_ITEM_TO_SHOP:
 			return {
 				...state,
@@ -102,6 +113,7 @@ interface ListItemsFromServerType {
 export type SelectItemType = {
 	Color: number | null;
 	Size: number | null;
+	Product: { id: number; sku: string; image: string } | null;
 };
 
 export interface ListItemsType extends ListItemsFromServerType {
@@ -127,6 +139,19 @@ export const addAllItemsToShopAction = (arrayOfItems: Array<ListItemsType> | nul
 	payload: { arrayOfItems },
 });
 
+export type ChangeValueItemActionType = {
+	type: typeof CHANGE_VALUE_ITEM;
+	payload: {
+		numberOfItems: number;
+		toId: number;
+	};
+};
+
+export const changeValueItemAction = (value: { numberOfItems: number; toId: number }): ChangeValueItemActionType => ({
+	type: CHANGE_VALUE_ITEM,
+	payload: value,
+});
+
 export type SelectItemActionType = {
 	type: typeof SELECT_ITEM;
 	payload: {
@@ -148,11 +173,10 @@ export const getListItems = (): ThunkType => {
 		if (response.ok) {
 			data = (await response.json()) as ListItemsFromServerType[];
 			data = (data as ListItemsType[]).map((elem: ListItemsType) => {
-				return (elem = { ...elem, numberOfItems: 0, selected: null, selectItem: { Color: null, Size: null } });
+				return (elem = { ...elem, numberOfItems: 0, selected: null, selectItem: { Color: null, Size: null, Product: null } });
 			});
 		}
 
-		console.log(data);
 		dispatch(addAllItemsToShopAction(data as ListItemsType[]));
 	};
 };

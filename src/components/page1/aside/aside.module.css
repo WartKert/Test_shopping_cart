@@ -9,8 +9,18 @@
 
 .ul {
 	list-style-type: none;
+	list-style-position: inside;
 }
 
 .list {
 	padding: 0.3em;
+	cursor: pointer;
+}
+
+.list:hover {
+	text-decoration: underline green 2px;
+}
+
+.isListActive {
+	list-style-image: url("../../../image/check.png");
 }

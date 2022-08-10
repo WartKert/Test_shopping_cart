@@ -1,31 +1,24 @@
 import React from "react";
 import imgLogo from "../../../image/logo.png";
 import imgBasketFree from "../../../image/basket_free_48px.png";
-import imgBasketFull from "../../image/basket_full_48px.png";
 import styles from "./header.module.css";
-import { TypedUseSelectorHook, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../redux_state/state";
+import { Link } from "react-router-dom";
 
-type HeaderProps = {};
-
-interface stateType {
-	cntItem: number;
-}
-
-const useAppSel: TypedUseSelectorHook<RootState> = useSelector;
-
-export function Header() {
-	const item = useAppSel((state) => {
-		return state.items.cntItem;
-	});
-	console.log("Header", item);
+export const Header: React.FC = (): JSX.Element => {
+	const stateShop = useSelector((state: RootState) => state.shopping).items;
 
 	return (
 		<div className={styles.imageBlock}>
-			<img className={styles.image} src={imgLogo} alt='Logo' title='Logo' />
+			<Link to='/' className={styles.image}>
+				<img src={imgLogo} alt='Logo' title='Logo' />
+			</Link>
+			<Link to='shopping_cart' className={styles.image}>
+				<img src={imgBasketFree} alt='ShopBasket'></img>
+			</Link>
 
-			<img className={styles.image} src={imgBasketFree} alt='ShopBasket' />
-			<div className={styles.countItems}>{`${item}`}</div>
+			<div className={styles.countItems}>{`${stateShop ? Object.values(stateShop).length : 0}`}</div>
 		</div>
 	);
-}
+};
