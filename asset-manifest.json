@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Test_shopping_cart/static/css/main.d8c50890.css",
+    "main.js": "/Test_shopping_cart/static/js/main.a0a26f4f.js",
+    "static/css/416.acbf0699.chunk.css": "/Test_shopping_cart/static/css/416.acbf0699.chunk.css",
+    "static/js/416.19069382.chunk.js": "/Test_shopping_cart/static/js/416.19069382.chunk.js",
+    "static/css/981.538a6942.chunk.css": "/Test_shopping_cart/static/css/981.538a6942.chunk.css",
+    "static/js/981.255a456e.chunk.js": "/Test_shopping_cart/static/js/981.255a456e.chunk.js",
+    "static/media/background_header.jpg": "/Test_shopping_cart/static/media/background_header.80fb5357c658c8fd602d.jpg",
+    "index.html": "/Test_shopping_cart/index.html",
+    "main.d8c50890.css.map": "/Test_shopping_cart/static/css/main.d8c50890.css.map",
+    "main.a0a26f4f.js.map": "/Test_shopping_cart/static/js/main.a0a26f4f.js.map",
+    "416.acbf0699.chunk.css.map": "/Test_shopping_cart/static/css/416.acbf0699.chunk.css.map",
+    "416.19069382.chunk.js.map": "/Test_shopping_cart/static/js/416.19069382.chunk.js.map",
+    "981.538a6942.chunk.css.map": "/Test_shopping_cart/static/css/981.538a6942.chunk.css.map",
+    "981.255a456e.chunk.js.map": "/Test_shopping_cart/static/js/981.255a456e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d8c50890.css",
+    "static/js/main.a0a26f4f.js"
+  ]
+}
